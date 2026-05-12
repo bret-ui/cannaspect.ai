@@ -1,5 +1,5 @@
 import streamlit as st
-from google import genai
+import google.genai as genai
 from google.genai import types
 import os
 import json
@@ -17,16 +17,14 @@ st.set_page_config(
 )
 
 # ── Gemini client setup ──────────────────────────────────────────────────────────
-GEMINI_API_KEY = os.environ.get("AI_INTEGRATIONS_GEMINI_API_KEY", "")
-GEMINI_BASE_URL = os.environ.get("AI_INTEGRATIONS_GEMINI_BASE_URL", "")
+# Streamlit reads this from your "Secrets" tab
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 
-client = genai.Client(
-    api_key=GEMINI_API_KEY,
-    http_options={"base_url": GEMINI_BASE_URL} if GEMINI_BASE_URL else {},
-)
+# This is the standard, high-speed connection for 2026
+client = genai.Client(api_key=GEMINI_API_KEY)
 
-MODEL_NAME = "gemini-2.5-flash"
-
+# Use the latest model for the best Sommelier IQ
+MODEL_NAME = "gemini-3-flash"
 # ── Global CSS ───────────────────────────────────────────────────────────────────
 st.markdown(
     """
